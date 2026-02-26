@@ -1,0 +1,224 @@
+/* Bundle Banner — mobile-first, vanilla CSS. 390w mobile, 750px+ desktop (1440w). */
+@import url('https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400..700;1,400..700&family=Nunito+Sans:ital,opsz,wght@0,6..12,200..1000;1,6..12,200..1000&display=swap');
+
+.bundle-banner {
+  width: 100%;
+  margin: 0;
+  position: relative;
+  isolation: isolate;
+}
+
+.bundle-banner__inner {
+  position: relative;
+  background-color: var(--bundle-banner-bg, #1a3d4a);
+  border-radius: 0;
+  overflow: hidden;
+}
+
+/* Background image (optional) */
+.bundle-banner__bg {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+}
+
+.bundle-banner__bg img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  opacity: 0.85;
+}
+
+/* Mobile: vertical gradient band behind text — full width, transparent top → solid bottom (match design) */
+@media screen and (max-width: 749px) {
+  .bundle-banner__content {
+    padding-left: 0;
+    padding-right: 0;
+    gap: 0;
+  }
+
+  .bundle-banner__text {
+    width: 100%;
+    max-width: none;
+    background: linear-gradient(
+      to bottom,
+      rgba(8, 45, 53, 0) 0%,
+      rgba(8, 45, 53, 1) 25%
+    );
+    padding: 0 20px;
+    justify-content: flex-end;
+    box-sizing: border-box;
+    margin-top: -61px;
+  }
+}
+
+/* Content grid: mobile = stack (image top, text bottom); desktop = two columns */
+.bundle-banner__content {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.5rem;
+  max-width: 100%;
+  box-sizing: border-box;
+}
+
+/* Mobile: image on top */
+.bundle-banner__media {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.bundle-banner__media img {
+  width: 100%;
+  height: auto;
+  display: block;
+  object-fit: contain;
+}
+
+.bundle-banner__placeholder {
+  width: 100%;
+  aspect-ratio: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(255, 255, 255, 0.06);
+  border-radius: 0.5rem;
+}
+
+.bundle-banner__placeholder .placeholder-svg {
+  width: 60%;
+  height: auto;
+  opacity: 0.5;
+}
+
+/* Text block */
+.bundle-banner__text {
+  text-align: left;
+  color: var(--bundle-banner-text, #ffffff);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+  width: 100%;
+}
+
+.bundle-banner__heading {
+  margin: 0;
+  font-size: 28px;
+  font-weight: 400;
+  line-height: 29px;
+  letter-spacing: 0;
+  color: inherit;
+  font-family: "Libre Baskerville", serif;
+}
+
+.bundle-banner__heading-highlight {
+  color: var(--bundle-banner-accent, #5eb8c9);
+  display: inline;
+  padding: 0 10px;
+}
+
+.bundle-banner__subheading {
+  margin: 0;
+  font-size: 16px;
+  line-height: 20px;
+  color: inherit;
+  font-family: "Nunito Sans", sans-serif;
+}
+
+.bundle-banner__cta {
+  margin-top: 0.25rem;
+  padding: 0.75rem 1.5rem;
+  font-size: 0.9375rem;
+  font-weight: 600;
+  text-decoration: none;
+  border-radius: 0.25rem;
+  border: none;
+  cursor: pointer;
+  background-color: var(--bundle-banner-accent, #5eb8c9);
+  color: #0d1f24;
+  transition: opacity 0.2s ease, transform 0.15s ease;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.bundle-banner__cta:hover {
+  opacity: 0.95;
+}
+
+.bundle-banner__cta:focus-visible {
+  outline: 2px solid var(--bundle-banner-text, #fff);
+  outline-offset: 2px;
+}
+
+.bundle-banner__cta[aria-disabled="true"] {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.bundle-banner__media picture {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+/* Desktop: two columns, text left / image right, match 1440w */
+@media screen and (min-width: 750px) {
+  .bundle-banner__inner {
+    border-radius: 0 0 30px 30px;
+  }
+
+  .bundle-banner__content {
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    gap: 2rem;
+    text-align: left;
+    max-width: 1440px;
+    margin: 0 auto;
+    margin-right: 0;
+    padding-left: 60px;
+  }
+
+  .bundle-banner__media {
+    order: 2;
+    flex: 0 1 53.67%;
+    justify-content: flex-end;
+  }
+
+  .bundle-banner__text {
+    order: 1;
+    align-items: flex-start;
+    text-align: left;
+    max-width: 505px;
+  }
+
+  .bundle-banner__heading {
+    font-size: 37.7px;
+    line-height: 48px;
+  }
+
+  .bundle-banner__subheading {
+    font-size: 1rem;
+    text-align: left;
+  }
+}
+
+/* Large desktop (1440w) — slightly more padding and font size */
+@media screen and (min-width: 1200px) {
+  .bundle-banner__heading {
+    font-size: 37.7px;
+    line-height: 48px;
+    font-weight: 700;
+  }
+
+  .bundle-banner__subheading {
+    font-size: 21px;
+    line-height: 27px;
+  }
+}
