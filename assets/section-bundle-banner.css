@@ -1,5 +1,7 @@
-/* Bundle Banner — mobile-first, vanilla CSS. 390w mobile, 750px+ desktop (1440w). */
+/* Bundle Banner — mobile-first vanilla CSS. Base = mobile (390w), then min-width for 750px+ and 1200px+. */
 @import url('https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400..700;1,400..700&family=Nunito+Sans:ital,opsz,wght@0,6..12,200..1000;1,6..12,200..1000&display=swap');
+
+/* ========== Base styles = mobile first (no media query) ========== */
 
 .bundle-banner {
   width: 100%;
@@ -15,7 +17,6 @@
   overflow: hidden;
 }
 
-/* Background image (optional) */
 .bundle-banner__bg {
   position: absolute;
   inset: 0;
@@ -31,42 +32,20 @@
   opacity: 0.85;
 }
 
-/* Mobile: vertical gradient band behind text — full width, transparent top → solid bottom (match design) */
-@media screen and (max-width: 749px) {
-  .bundle-banner__content {
-    padding-left: 0;
-    padding-right: 0;
-    gap: 0;
-  }
-
-  .bundle-banner__text {
-    width: 100%;
-    max-width: none;
-    background: linear-gradient(
-      to bottom,
-      rgba(8, 45, 53, 0) 0%,
-      rgba(8, 45, 53, 1) 25%
-    );
-    padding: 0 20px;
-    justify-content: flex-end;
-    box-sizing: border-box;
-    margin-top: -61px;
-  }
-}
-
-/* Content grid: mobile = stack (image top, text bottom); desktop = two columns */
+/* Content: stacked on mobile (image top, text bottom) */
 .bundle-banner__content {
   position: relative;
   z-index: 1;
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 1.5rem;
+  gap: 0;
   max-width: 100%;
   box-sizing: border-box;
+  padding-left: 0;
+  padding-right: 0;
 }
 
-/* Mobile: image on top */
 .bundle-banner__media {
   width: 100%;
   display: flex;
@@ -97,15 +76,25 @@
   opacity: 0.5;
 }
 
-/* Text block */
+/* Text block — mobile: full-width gradient band behind text */
 .bundle-banner__text {
+  width: 100%;
+  max-width: none;
   text-align: left;
   color: var(--bundle-banner-text, #ffffff);
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: 1rem;
-  width: 100%;
+  box-sizing: border-box;
+  padding: 0 20px 2rem;
+  justify-content: flex-end;
+  margin-top: -61px;
+  background: linear-gradient(
+    to bottom,
+    rgba(8, 45, 53, 0) 0%,
+    rgba(8, 45, 53, 1) 25%
+  );
 }
 
 .bundle-banner__heading {
@@ -167,7 +156,7 @@
   object-fit: contain;
 }
 
-/* Desktop: two columns, text left / image right, match 1440w */
+/* ========== Tablet/desktop: enhance with min-width (mobile-first) ========== */
 @media screen and (min-width: 750px) {
   .bundle-banner__inner {
     border-radius: 0 0 30px 30px;
@@ -183,6 +172,7 @@
     margin: 0 auto;
     margin-right: 0;
     padding-left: 60px;
+    padding-right: 60px;
   }
 
   .bundle-banner__media {
@@ -196,6 +186,9 @@
     align-items: flex-start;
     text-align: left;
     max-width: 505px;
+    margin-top: 0;
+    padding: 0;
+    background: none; /* no gradient on desktop */
   }
 
   .bundle-banner__heading {
@@ -209,7 +202,7 @@
   }
 }
 
-/* Large desktop (1440w) — slightly more padding and font size */
+/* Large desktop (1440w) */
 @media screen and (min-width: 1200px) {
   .bundle-banner__heading {
     font-size: 37.7px;

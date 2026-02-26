@@ -1,5 +1,26 @@
 {{ 'section-bundle-banner.css' | asset_url | stylesheet_tag }}
 
+{%- style -%}
+  /* Mobile-first padding: base = mobile, then desktop override */
+  .section-{{ section.id }}-padding .bundle-banner__inner {
+    padding-top: {{ section.settings.padding_top_mobile }}px;
+    padding-bottom: {{ section.settings.padding_bottom_mobile }}px;
+  }
+
+  @media screen and (min-width: 750px) {
+    .section-{{ section.id }}-padding .bundle-banner__inner {
+      padding-top: {{ section.settings.padding_top }}px;
+      padding-bottom: {{ section.settings.padding_bottom }}px;
+    }
+  }
+
+  #{{ section_id }} {
+    --bundle-banner-bg: {{ section.settings.background_color }};
+    --bundle-banner-text: {{ section.settings.text_color }};
+    --bundle-banner-accent: {{ section.settings.accent_color }};
+  }
+{%- endstyle -%}
+
 {%- liquid
   assign heading = section.settings.heading | default: ''
   assign heading_highlight = section.settings.heading_highlight | default: ''
@@ -29,43 +50,55 @@
     {%- endif -%}
 
     <div class="bundle-banner__content">
-      {%- comment -%} Mobile: image first. Desktop: text first (left), image right. {%- endcomment -%}
+      {%- comment -%} Mobile-first: image first on small screens; desktop order via CSS. {%- endcomment -%}
       <div class="bundle-banner__media">
         {%- if product_image != blank and product_image_mobile != blank -%}
+          {%- liquid
+            assign desktop_srcset_550 = product_image | image_url: width: 550
+            assign desktop_srcset_750 = product_image | image_url: width: 750
+            assign desktop_srcset_800 = product_image | image_url: width: 800
+          -%}
           <picture>
+            {%- comment -%} Mobile-first: default is mobile img below; source enhances for desktop (min-width). {%- endcomment -%}
             <source
-              media="(max-width: 749px)"
-              srcset="
-                {{ product_image_mobile | image_url: width: 390 }} 390w,
-                {{ product_image_mobile | image_url: width: 550 }} 550w,
-                {{ product_image_mobile | image_url: width: 750 }} 750w
-              "
-              sizes="100vw"
+              media="(min-width: 750px)"
+              srcset="{{ desktop_srcset_550 }} 550w, {{ desktop_srcset_750 }} 750w, {{ desktop_srcset_800 }} 800w"
+              sizes="(min-width: 750px) 50vw, 100vw"
             >
             {{
-              product_image
+              product_image_mobile
               | image_url: width: 800
               | image_tag:
                 loading: 'lazy',
                 widths: '390, 550, 750, 800',
-                sizes: '(min-width: 750px) 50vw, 100vw',
-                alt: product_image.alt
-              | default: 'Bundle product image'
+                sizes: '100vw',
+                alt: product_image_mobile.alt | default: 'Bundle product image'
             }}
           </picture>
+        {%- elsif product_image != blank -%}
+          {{
+            product_image
+            | image_url: width: 800
+            | image_tag:
+              loading: 'lazy',
+              widths: '390, 550, 750, 800',
+              sizes: '(min-width: 750px) 50vw, 100vw',
+              alt: product_image.alt | default: 'Bundle product image'
+          }}
+        {%- elsif product_image_mobile != blank -%}
+          {{
+            product_image_mobile
+            | image_url: width: 800
+            | image_tag:
+              loading: 'lazy',
+              widths: '390, 550, 750, 800',
+              sizes: '(min-width: 750px) 50vw, 100vw',
+              alt: product_image_mobile.alt | default: 'Bundle product image'
+          }}
         {%- else -%}
-          {% if product_image != blank %}
-            {{
-              product_image
-              | image_url: width: 800
-              | image_tag:
-                loading: 'lazy',
-                widths: '390, 550, 750, 800',
-                sizes: '(min-width: 750px) 50vw, 100vw',
-                alt: product_image.alt
-              | default: 'Bundle product image'
-            }}
-          {% endif %}
+          <div class="bundle-banner__placeholder" aria-hidden="true">
+            {{ 'product-1' | placeholder_svg_tag: 'placeholder-svg' }}
+          </div>
         {%- endif -%}
       </div>
 
@@ -74,7 +107,7 @@
           <h2 id="{{ section_id }}-heading" class="bundle-banner__heading">
             {%- if heading != blank -%}{{ heading }}{%- endif -%}
             {%- if heading_highlight != blank -%}
-              <span class="bundle-banner__heading-highlight">{{ heading_highlight }}</span>
+              {%- if heading != blank -%} {%- endif -%}<span class="bundle-banner__heading-highlight">{{ heading_highlight }}</span>
             {%- endif -%}
           </h2>
         {%- endif -%}
@@ -97,31 +130,11 @@
   </div>
 </section>
 
-{%- style -%}
-  .section-{{ section.id }}-padding .bundle-banner__inner {
-    padding-top: {{ section.settings.padding_top_mobile }}px;
-    padding-bottom: {{ section.settings.padding_bottom_mobile }}px;
-  }
-
-  @media screen and (min-width: 750px) {
-    .section-{{ section.id }}-padding .bundle-banner__inner {
-      padding-top: {{ section.settings.padding_top }}px;
-      padding-bottom: {{ section.settings.padding_bottom }}px;
-    }
-  }
-
-  #{{ section_id }} {
-    --bundle-banner-bg: {{ section.settings.background_color }};
-    --bundle-banner-text: {{ section.settings.text_color }};
-    --bundle-banner-accent: {{ section.settings.accent_color }};
-  }
-{%- endstyle -%}
-
 {% schema %}
 {
   "name": "Bundle Banner",
   "tag": "section",
-  "class": "section",
+  "class": "section bundle-banner-section",
   "disabled_on": {
     "groups": ["header", "footer"]
   },
