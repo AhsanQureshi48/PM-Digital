@@ -1,7 +1,6 @@
 {{ 'section-bundle-banner.css' | asset_url | stylesheet_tag }}
 
 {%- style -%}
-  /* Mobile-first padding: base = mobile, then desktop override */
   .section-{{ section.id }}-padding .bundle-banner__inner {
     padding-top: {{ section.settings.padding_top_mobile }}px;
     padding-bottom: {{ section.settings.padding_bottom_mobile }}px;
@@ -22,11 +21,11 @@
 {%- endstyle -%}
 
 {%- liquid
-  assign heading = section.settings.heading | default: ''
-  assign heading_highlight = section.settings.heading_highlight | default: ''
-  assign subheading = section.settings.subheading | default: ''
-  assign cta_label = section.settings.cta_label | default: ''
-  assign cta_link = section.settings.cta_link | default: ''
+  assign heading = section.settings.heading
+  assign heading_highlight = section.settings.heading_highlight
+  assign subheading = section.settings.subheading
+  assign cta_label = section.settings.cta_label
+  assign cta_link = section.settings.cta_link
   assign background_image = section.settings.background_image
   assign product_image = section.settings.product_image
   assign product_image_mobile = section.settings.product_image_mobile
@@ -59,7 +58,6 @@
             assign desktop_srcset_800 = product_image | image_url: width: 800
           -%}
           <picture>
-            {%- comment -%} Mobile-first: default is mobile img below; source enhances for desktop (min-width). {%- endcomment -%}
             <source
               media="(min-width: 750px)"
               srcset="{{ desktop_srcset_550 }} 550w, {{ desktop_srcset_750 }} 750w, {{ desktop_srcset_800 }} 800w"

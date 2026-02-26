@@ -1,7 +1,4 @@
-/* Bundle Banner — mobile-first vanilla CSS. Base = mobile (390w), then min-width for 750px+ and 1200px+. */
 @import url('https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400..700;1,400..700&family=Nunito+Sans:ital,opsz,wght@0,6..12,200..1000;1,6..12,200..1000&display=swap');
-
-/* ========== Base styles = mobile first (no media query) ========== */
 
 .bundle-banner {
   width: 100%;
@@ -32,7 +29,6 @@
   opacity: 0.85;
 }
 
-/* Content: stacked on mobile (image top, text bottom) */
 .bundle-banner__content {
   position: relative;
   z-index: 1;
@@ -76,7 +72,6 @@
   opacity: 0.5;
 }
 
-/* Text block — mobile: full-width gradient band behind text */
 .bundle-banner__text {
   width: 100%;
   max-width: none;
@@ -156,7 +151,6 @@
   object-fit: contain;
 }
 
-/* ========== Tablet/desktop: enhance with min-width (mobile-first) ========== */
 @media screen and (min-width: 750px) {
   .bundle-banner__inner {
     border-radius: 0 0 30px 30px;
@@ -188,7 +182,7 @@
     max-width: 505px;
     margin-top: 0;
     padding: 0;
-    background: none; /* no gradient on desktop */
+    background: none;
   }
 
   .bundle-banner__heading {
@@ -202,7 +196,6 @@
   }
 }
 
-/* Large desktop (1440w) */
 @media screen and (min-width: 1200px) {
   .bundle-banner__heading {
     font-size: 37.7px;
